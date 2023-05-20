@@ -5,11 +5,17 @@ from config.settings import base
 
 class Tag(models.Model):
     ''' タグのテーブル '''
+    user = models.ForeignKey(
+        base.AUTH_USER_MODEL, verbose_name='ユーザー名', on_delete=models.CASCADE, related_name='tags')
     name = models.CharField(max_length=50, verbose_name='タグ', unique=True)
+    created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
 
     class Meta:
         verbose_name = 'タグ'
         verbose_name_plural = 'タグ'
+
+    def __str__(self):
+        return self.name
 
 
 class Note(models.Model):
@@ -39,6 +45,9 @@ class Note(models.Model):
         verbose_name = 'ノート'
         verbose_name_plural = 'ノート'
 
+    def __str__(self):
+        return self.title
+
 
 class Comment(models.Model):
     ''' コメントのテーブル '''
@@ -54,6 +63,9 @@ class Comment(models.Model):
         verbose_name = 'コメント'
         verbose_name_plural = 'コメント'
 
+    def __str__(self):
+        return self.text
+
 
 class Reply(models.Model):
     ''' 返信のテーブル '''
@@ -68,6 +80,9 @@ class Reply(models.Model):
     class Meta:
         verbose_name = '返信'
         verbose_name_plural = '返信'
+
+    def __str__(self):
+        return self.text
 
 
 class Like(models.Model):
